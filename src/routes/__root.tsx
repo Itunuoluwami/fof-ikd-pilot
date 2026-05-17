@@ -81,6 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "FOF IKD Ops — Admin Console" },
+      { name: "twitter:description", content: "Operations console for FOF IKD discipleship programme." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b5a07e68-85bd-4030-860a-e6b9a867a5fa/id-preview-0f2e4ed9--75d7efa8-61e9-4e95-b9ed-6a92975d7769.lovable.app-1779027948080.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b5a07e68-85bd-4030-860a-e6b9a867a5fa/id-preview-0f2e4ed9--75d7efa8-61e9-4e95-b9ed-6a92975d7769.lovable.app-1779027948080.png" },
     ],
     links: [
       {
