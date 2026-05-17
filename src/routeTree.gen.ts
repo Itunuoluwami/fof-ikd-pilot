@@ -9,38 +9,248 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UsersRouteImport } from './routes/users'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ScheduleRouteImport } from './routes/schedule'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as FaithProjectsRouteImport } from './routes/faith-projects'
+import { Route as CohortsRouteImport } from './routes/cohorts'
+import { Route as AttendanceRouteImport } from './routes/attendance'
+import { Route as ApprovalsRouteImport } from './routes/approvals'
+import { Route as AnnouncementsRouteImport } from './routes/announcements'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ParticipantsIndexRouteImport } from './routes/participants.index'
+import { Route as ParticipantsIdRouteImport } from './routes/participants.$id'
 
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScheduleRoute = ScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaithProjectsRoute = FaithProjectsRouteImport.update({
+  id: '/faith-projects',
+  path: '/faith-projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CohortsRoute = CohortsRouteImport.update({
+  id: '/cohorts',
+  path: '/cohorts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AttendanceRoute = AttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApprovalsRoute = ApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnnouncementsRoute = AnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParticipantsIndexRoute = ParticipantsIndexRouteImport.update({
+  id: '/participants/',
+  path: '/participants/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParticipantsIdRoute = ParticipantsIdRouteImport.update({
+  id: '/participants/$id',
+  path: '/participants/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/announcements': typeof AnnouncementsRoute
+  '/approvals': typeof ApprovalsRoute
+  '/attendance': typeof AttendanceRoute
+  '/cohorts': typeof CohortsRoute
+  '/faith-projects': typeof FaithProjectsRoute
+  '/resources': typeof ResourcesRoute
+  '/schedule': typeof ScheduleRoute
+  '/settings': typeof SettingsRoute
+  '/users': typeof UsersRoute
+  '/participants/$id': typeof ParticipantsIdRoute
+  '/participants/': typeof ParticipantsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/announcements': typeof AnnouncementsRoute
+  '/approvals': typeof ApprovalsRoute
+  '/attendance': typeof AttendanceRoute
+  '/cohorts': typeof CohortsRoute
+  '/faith-projects': typeof FaithProjectsRoute
+  '/resources': typeof ResourcesRoute
+  '/schedule': typeof ScheduleRoute
+  '/settings': typeof SettingsRoute
+  '/users': typeof UsersRoute
+  '/participants/$id': typeof ParticipantsIdRoute
+  '/participants': typeof ParticipantsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/announcements': typeof AnnouncementsRoute
+  '/approvals': typeof ApprovalsRoute
+  '/attendance': typeof AttendanceRoute
+  '/cohorts': typeof CohortsRoute
+  '/faith-projects': typeof FaithProjectsRoute
+  '/resources': typeof ResourcesRoute
+  '/schedule': typeof ScheduleRoute
+  '/settings': typeof SettingsRoute
+  '/users': typeof UsersRoute
+  '/participants/$id': typeof ParticipantsIdRoute
+  '/participants/': typeof ParticipantsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/announcements'
+    | '/approvals'
+    | '/attendance'
+    | '/cohorts'
+    | '/faith-projects'
+    | '/resources'
+    | '/schedule'
+    | '/settings'
+    | '/users'
+    | '/participants/$id'
+    | '/participants/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/announcements'
+    | '/approvals'
+    | '/attendance'
+    | '/cohorts'
+    | '/faith-projects'
+    | '/resources'
+    | '/schedule'
+    | '/settings'
+    | '/users'
+    | '/participants/$id'
+    | '/participants'
+  id:
+    | '__root__'
+    | '/'
+    | '/announcements'
+    | '/approvals'
+    | '/attendance'
+    | '/cohorts'
+    | '/faith-projects'
+    | '/resources'
+    | '/schedule'
+    | '/settings'
+    | '/users'
+    | '/participants/$id'
+    | '/participants/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnnouncementsRoute: typeof AnnouncementsRoute
+  ApprovalsRoute: typeof ApprovalsRoute
+  AttendanceRoute: typeof AttendanceRoute
+  CohortsRoute: typeof CohortsRoute
+  FaithProjectsRoute: typeof FaithProjectsRoute
+  ResourcesRoute: typeof ResourcesRoute
+  ScheduleRoute: typeof ScheduleRoute
+  SettingsRoute: typeof SettingsRoute
+  UsersRoute: typeof UsersRoute
+  ParticipantsIdRoute: typeof ParticipantsIdRoute
+  ParticipantsIndexRoute: typeof ParticipantsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schedule': {
+      id: '/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof ScheduleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faith-projects': {
+      id: '/faith-projects'
+      path: '/faith-projects'
+      fullPath: '/faith-projects'
+      preLoaderRoute: typeof FaithProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cohorts': {
+      id: '/cohorts'
+      path: '/cohorts'
+      fullPath: '/cohorts'
+      preLoaderRoute: typeof CohortsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/attendance': {
+      id: '/attendance'
+      path: '/attendance'
+      fullPath: '/attendance'
+      preLoaderRoute: typeof AttendanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/approvals': {
+      id: '/approvals'
+      path: '/approvals'
+      fullPath: '/approvals'
+      preLoaderRoute: typeof ApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/announcements': {
+      id: '/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof AnnouncementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +258,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/participants/': {
+      id: '/participants/'
+      path: '/participants'
+      fullPath: '/participants/'
+      preLoaderRoute: typeof ParticipantsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/participants/$id': {
+      id: '/participants/$id'
+      path: '/participants/$id'
+      fullPath: '/participants/$id'
+      preLoaderRoute: typeof ParticipantsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnnouncementsRoute: AnnouncementsRoute,
+  ApprovalsRoute: ApprovalsRoute,
+  AttendanceRoute: AttendanceRoute,
+  CohortsRoute: CohortsRoute,
+  FaithProjectsRoute: FaithProjectsRoute,
+  ResourcesRoute: ResourcesRoute,
+  ScheduleRoute: ScheduleRoute,
+  SettingsRoute: SettingsRoute,
+  UsersRoute: UsersRoute,
+  ParticipantsIdRoute: ParticipantsIdRoute,
+  ParticipantsIndexRoute: ParticipantsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
