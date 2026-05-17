@@ -1,4 +1,4 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { LayoutDashboard, CalendarDays, CheckSquare, Users, Network, UserCircle2, HeartHandshake, ClipboardCheck, Megaphone, BookOpen, Settings, Bell, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { CohortSelector } from "./CohortSelector";
@@ -67,7 +67,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
         </header>
 
         <main className="p-4 sm:p-6 pb-24 lg:pb-6">
-          <Outlet />
+          {children}
         </main>
       </div>
 
