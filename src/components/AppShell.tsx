@@ -17,7 +17,7 @@ const nav = [
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
-export function AppShell() {
+export function AppShell({ children }: { children?: React.ReactNode }) {
   const path = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const isActive = (to: string, exact?: boolean) => exact ? path === to : path === to || path.startsWith(to + "/");
