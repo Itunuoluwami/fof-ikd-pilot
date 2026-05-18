@@ -38,7 +38,7 @@ function Dashboard() {
     <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6">
       <div className="space-y-6 min-w-0">
         {/* Hero / cohort */}
-        <section className="card-soft p-6 bg-gradient-to-br from-primary to-[oklch(0.7_0.18_42)] text-primary-foreground">
+        <section className="card-soft p-6 text-white" style={{ background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)" }}>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-sm/relaxed opacity-90">Operational snapshot</p>
