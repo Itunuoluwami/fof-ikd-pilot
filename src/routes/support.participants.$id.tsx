@@ -24,9 +24,9 @@ function ParticipantProfile() {
     if (!draft.trim()) return;
     const date = new Date().toISOString().slice(0,10);
     if (mode === "prayer") {
-      setPrayers([{ id: `pr-${Date.now()}`, participantId: p.id, submittedById: "u-3", text: draft, date, status: "OPEN" }, ...prayers]);
+      setPrayers([{ id: `pr-${Date.now()}`, participantId: id, submittedById: "u-3", text: draft, date, status: "OPEN" }, ...prayers]);
     } else {
-      setNotes([{ id: `n-${Date.now()}`, participantId: p.id, supportId: "u-3", date, text: draft }, ...notes]);
+      setNotes([{ id: `n-${Date.now()}`, participantId: id, supportId: "u-3", date, text: draft }, ...notes]);
     }
     setDraft("");
   }
