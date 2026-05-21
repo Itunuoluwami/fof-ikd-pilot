@@ -52,6 +52,9 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
             <div className="flex-1 min-w-0">
               <CohortSelector />
             </div>
+            <Link to="/login" className="hidden sm:inline-flex text-xs font-semibold text-primary px-3 py-1.5 rounded-lg bg-primary-light hover:bg-primary/10">
+              Support sign-in →
+            </Link>
             <button className="relative p-2 rounded-lg hover:bg-muted">
               <Bell className="w-5 h-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary" />
