@@ -10,9 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as FaithProjectsRouteImport } from './routes/faith-projects'
 import { Route as CohortsRouteImport } from './routes/cohorts'
 import { Route as AttendanceRouteImport } from './routes/attendance'
@@ -25,6 +27,11 @@ import { Route as ParticipantsIdRouteImport } from './routes/participants.$id'
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
   path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -40,6 +47,11 @@ const ScheduleRoute = ScheduleRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaithProjectsRoute = FaithProjectsRouteImport.update({
@@ -90,9 +102,11 @@ export interface FileRoutesByFullPath {
   '/attendance': typeof AttendanceRoute
   '/cohorts': typeof CohortsRoute
   '/faith-projects': typeof FaithProjectsRoute
+  '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/schedule': typeof ScheduleRoute
   '/settings': typeof SettingsRoute
+  '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/participants/$id': typeof ParticipantsIdRoute
   '/participants/': typeof ParticipantsIndexRoute
@@ -104,9 +118,11 @@ export interface FileRoutesByTo {
   '/attendance': typeof AttendanceRoute
   '/cohorts': typeof CohortsRoute
   '/faith-projects': typeof FaithProjectsRoute
+  '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/schedule': typeof ScheduleRoute
   '/settings': typeof SettingsRoute
+  '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/participants/$id': typeof ParticipantsIdRoute
   '/participants': typeof ParticipantsIndexRoute
@@ -119,9 +135,11 @@ export interface FileRoutesById {
   '/attendance': typeof AttendanceRoute
   '/cohorts': typeof CohortsRoute
   '/faith-projects': typeof FaithProjectsRoute
+  '/login': typeof LoginRoute
   '/resources': typeof ResourcesRoute
   '/schedule': typeof ScheduleRoute
   '/settings': typeof SettingsRoute
+  '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/participants/$id': typeof ParticipantsIdRoute
   '/participants/': typeof ParticipantsIndexRoute
@@ -135,9 +153,11 @@ export interface FileRouteTypes {
     | '/attendance'
     | '/cohorts'
     | '/faith-projects'
+    | '/login'
     | '/resources'
     | '/schedule'
     | '/settings'
+    | '/support'
     | '/users'
     | '/participants/$id'
     | '/participants/'
@@ -149,9 +169,11 @@ export interface FileRouteTypes {
     | '/attendance'
     | '/cohorts'
     | '/faith-projects'
+    | '/login'
     | '/resources'
     | '/schedule'
     | '/settings'
+    | '/support'
     | '/users'
     | '/participants/$id'
     | '/participants'
@@ -163,9 +185,11 @@ export interface FileRouteTypes {
     | '/attendance'
     | '/cohorts'
     | '/faith-projects'
+    | '/login'
     | '/resources'
     | '/schedule'
     | '/settings'
+    | '/support'
     | '/users'
     | '/participants/$id'
     | '/participants/'
@@ -178,9 +202,11 @@ export interface RootRouteChildren {
   AttendanceRoute: typeof AttendanceRoute
   CohortsRoute: typeof CohortsRoute
   FaithProjectsRoute: typeof FaithProjectsRoute
+  LoginRoute: typeof LoginRoute
   ResourcesRoute: typeof ResourcesRoute
   ScheduleRoute: typeof ScheduleRoute
   SettingsRoute: typeof SettingsRoute
+  SupportRoute: typeof SupportRoute
   UsersRoute: typeof UsersRoute
   ParticipantsIdRoute: typeof ParticipantsIdRoute
   ParticipantsIndexRoute: typeof ParticipantsIndexRoute
@@ -193,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/users'
       fullPath: '/users'
       preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -214,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faith-projects': {
@@ -282,9 +322,11 @@ const rootRouteChildren: RootRouteChildren = {
   AttendanceRoute: AttendanceRoute,
   CohortsRoute: CohortsRoute,
   FaithProjectsRoute: FaithProjectsRoute,
+  LoginRoute: LoginRoute,
   ResourcesRoute: ResourcesRoute,
   ScheduleRoute: ScheduleRoute,
   SettingsRoute: SettingsRoute,
+  SupportRoute: SupportRoute,
   UsersRoute: UsersRoute,
   ParticipantsIdRoute: ParticipantsIdRoute,
   ParticipantsIndexRoute: ParticipantsIndexRoute,
@@ -292,13 +334,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
