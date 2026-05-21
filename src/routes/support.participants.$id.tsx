@@ -10,10 +10,9 @@ export const Route = createFileRoute("/support/participants/$id")({ component: P
 function ParticipantProfile() {
   const { id } = Route.useParams();
   const p = participants.find(x => x.id === id);
+  const [prayers, setPrayers] = useState(prayerRequests.filter(pr => pr.participantId === id));
+  const [notes, setNotes] = useState(supportNotes.filter(n => n.participantId === id));
   if (!p) throw notFound();
-
-  const [prayers, setPrayers] = useState(prayerRequests.filter(pr => pr.participantId === p.id));
-  const [notes, setNotes] = useState(supportNotes.filter(n => n.participantId === p.id));
   const att = attendance.filter(a => a.participantId === p.id);
   const cohort = getCohort(p.cohortId);
   const group = getGroup(p.groupId);

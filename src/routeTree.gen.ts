@@ -21,8 +21,16 @@ import { Route as AttendanceRouteImport } from './routes/attendance'
 import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as AnnouncementsRouteImport } from './routes/announcements'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SupportIndexRouteImport } from './routes/support.index'
 import { Route as ParticipantsIndexRouteImport } from './routes/participants.index'
+import { Route as SupportScheduleRouteImport } from './routes/support.schedule'
+import { Route as SupportResourcesRouteImport } from './routes/support.resources'
+import { Route as SupportProfileRouteImport } from './routes/support.profile'
+import { Route as SupportGuideRouteImport } from './routes/support.guide'
+import { Route as SupportAttendanceRouteImport } from './routes/support.attendance'
 import { Route as ParticipantsIdRouteImport } from './routes/participants.$id'
+import { Route as SupportParticipantsIndexRouteImport } from './routes/support.participants.index'
+import { Route as SupportParticipantsIdRouteImport } from './routes/support.participants.$id'
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
@@ -84,15 +92,56 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupportIndexRoute = SupportIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SupportRoute,
+} as any)
 const ParticipantsIndexRoute = ParticipantsIndexRouteImport.update({
   id: '/participants/',
   path: '/participants/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupportScheduleRoute = SupportScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => SupportRoute,
+} as any)
+const SupportResourcesRoute = SupportResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => SupportRoute,
+} as any)
+const SupportProfileRoute = SupportProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => SupportRoute,
+} as any)
+const SupportGuideRoute = SupportGuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => SupportRoute,
+} as any)
+const SupportAttendanceRoute = SupportAttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => SupportRoute,
+} as any)
 const ParticipantsIdRoute = ParticipantsIdRouteImport.update({
   id: '/participants/$id',
   path: '/participants/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SupportParticipantsIndexRoute =
+  SupportParticipantsIndexRouteImport.update({
+    id: '/participants/',
+    path: '/participants/',
+    getParentRoute: () => SupportRoute,
+  } as any)
+const SupportParticipantsIdRoute = SupportParticipantsIdRouteImport.update({
+  id: '/participants/$id',
+  path: '/participants/$id',
+  getParentRoute: () => SupportRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -106,10 +155,18 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/schedule': typeof ScheduleRoute
   '/settings': typeof SettingsRoute
-  '/support': typeof SupportRoute
+  '/support': typeof SupportRouteWithChildren
   '/users': typeof UsersRoute
   '/participants/$id': typeof ParticipantsIdRoute
+  '/support/attendance': typeof SupportAttendanceRoute
+  '/support/guide': typeof SupportGuideRoute
+  '/support/profile': typeof SupportProfileRoute
+  '/support/resources': typeof SupportResourcesRoute
+  '/support/schedule': typeof SupportScheduleRoute
   '/participants/': typeof ParticipantsIndexRoute
+  '/support/': typeof SupportIndexRoute
+  '/support/participants/$id': typeof SupportParticipantsIdRoute
+  '/support/participants/': typeof SupportParticipantsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -122,10 +179,17 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/schedule': typeof ScheduleRoute
   '/settings': typeof SettingsRoute
-  '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/participants/$id': typeof ParticipantsIdRoute
+  '/support/attendance': typeof SupportAttendanceRoute
+  '/support/guide': typeof SupportGuideRoute
+  '/support/profile': typeof SupportProfileRoute
+  '/support/resources': typeof SupportResourcesRoute
+  '/support/schedule': typeof SupportScheduleRoute
   '/participants': typeof ParticipantsIndexRoute
+  '/support': typeof SupportIndexRoute
+  '/support/participants/$id': typeof SupportParticipantsIdRoute
+  '/support/participants': typeof SupportParticipantsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -139,10 +203,18 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/schedule': typeof ScheduleRoute
   '/settings': typeof SettingsRoute
-  '/support': typeof SupportRoute
+  '/support': typeof SupportRouteWithChildren
   '/users': typeof UsersRoute
   '/participants/$id': typeof ParticipantsIdRoute
+  '/support/attendance': typeof SupportAttendanceRoute
+  '/support/guide': typeof SupportGuideRoute
+  '/support/profile': typeof SupportProfileRoute
+  '/support/resources': typeof SupportResourcesRoute
+  '/support/schedule': typeof SupportScheduleRoute
   '/participants/': typeof ParticipantsIndexRoute
+  '/support/': typeof SupportIndexRoute
+  '/support/participants/$id': typeof SupportParticipantsIdRoute
+  '/support/participants/': typeof SupportParticipantsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -160,7 +232,15 @@ export interface FileRouteTypes {
     | '/support'
     | '/users'
     | '/participants/$id'
+    | '/support/attendance'
+    | '/support/guide'
+    | '/support/profile'
+    | '/support/resources'
+    | '/support/schedule'
     | '/participants/'
+    | '/support/'
+    | '/support/participants/$id'
+    | '/support/participants/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,10 +253,17 @@ export interface FileRouteTypes {
     | '/resources'
     | '/schedule'
     | '/settings'
-    | '/support'
     | '/users'
     | '/participants/$id'
+    | '/support/attendance'
+    | '/support/guide'
+    | '/support/profile'
+    | '/support/resources'
+    | '/support/schedule'
     | '/participants'
+    | '/support'
+    | '/support/participants/$id'
+    | '/support/participants'
   id:
     | '__root__'
     | '/'
@@ -192,7 +279,15 @@ export interface FileRouteTypes {
     | '/support'
     | '/users'
     | '/participants/$id'
+    | '/support/attendance'
+    | '/support/guide'
+    | '/support/profile'
+    | '/support/resources'
+    | '/support/schedule'
     | '/participants/'
+    | '/support/'
+    | '/support/participants/$id'
+    | '/support/participants/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,7 +301,7 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRoute
   ScheduleRoute: typeof ScheduleRoute
   SettingsRoute: typeof SettingsRoute
-  SupportRoute: typeof SupportRoute
+  SupportRoute: typeof SupportRouteWithChildren
   UsersRoute: typeof UsersRoute
   ParticipantsIdRoute: typeof ParticipantsIdRoute
   ParticipantsIndexRoute: typeof ParticipantsIndexRoute
@@ -298,12 +393,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/support/': {
+      id: '/support/'
+      path: '/'
+      fullPath: '/support/'
+      preLoaderRoute: typeof SupportIndexRouteImport
+      parentRoute: typeof SupportRoute
+    }
     '/participants/': {
       id: '/participants/'
       path: '/participants'
       fullPath: '/participants/'
       preLoaderRoute: typeof ParticipantsIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/support/schedule': {
+      id: '/support/schedule'
+      path: '/schedule'
+      fullPath: '/support/schedule'
+      preLoaderRoute: typeof SupportScheduleRouteImport
+      parentRoute: typeof SupportRoute
+    }
+    '/support/resources': {
+      id: '/support/resources'
+      path: '/resources'
+      fullPath: '/support/resources'
+      preLoaderRoute: typeof SupportResourcesRouteImport
+      parentRoute: typeof SupportRoute
+    }
+    '/support/profile': {
+      id: '/support/profile'
+      path: '/profile'
+      fullPath: '/support/profile'
+      preLoaderRoute: typeof SupportProfileRouteImport
+      parentRoute: typeof SupportRoute
+    }
+    '/support/guide': {
+      id: '/support/guide'
+      path: '/guide'
+      fullPath: '/support/guide'
+      preLoaderRoute: typeof SupportGuideRouteImport
+      parentRoute: typeof SupportRoute
+    }
+    '/support/attendance': {
+      id: '/support/attendance'
+      path: '/attendance'
+      fullPath: '/support/attendance'
+      preLoaderRoute: typeof SupportAttendanceRouteImport
+      parentRoute: typeof SupportRoute
     }
     '/participants/$id': {
       id: '/participants/$id'
@@ -312,8 +449,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParticipantsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/support/participants/': {
+      id: '/support/participants/'
+      path: '/participants'
+      fullPath: '/support/participants/'
+      preLoaderRoute: typeof SupportParticipantsIndexRouteImport
+      parentRoute: typeof SupportRoute
+    }
+    '/support/participants/$id': {
+      id: '/support/participants/$id'
+      path: '/participants/$id'
+      fullPath: '/support/participants/$id'
+      preLoaderRoute: typeof SupportParticipantsIdRouteImport
+      parentRoute: typeof SupportRoute
+    }
   }
 }
+
+interface SupportRouteChildren {
+  SupportAttendanceRoute: typeof SupportAttendanceRoute
+  SupportGuideRoute: typeof SupportGuideRoute
+  SupportProfileRoute: typeof SupportProfileRoute
+  SupportResourcesRoute: typeof SupportResourcesRoute
+  SupportScheduleRoute: typeof SupportScheduleRoute
+  SupportIndexRoute: typeof SupportIndexRoute
+  SupportParticipantsIdRoute: typeof SupportParticipantsIdRoute
+  SupportParticipantsIndexRoute: typeof SupportParticipantsIndexRoute
+}
+
+const SupportRouteChildren: SupportRouteChildren = {
+  SupportAttendanceRoute: SupportAttendanceRoute,
+  SupportGuideRoute: SupportGuideRoute,
+  SupportProfileRoute: SupportProfileRoute,
+  SupportResourcesRoute: SupportResourcesRoute,
+  SupportScheduleRoute: SupportScheduleRoute,
+  SupportIndexRoute: SupportIndexRoute,
+  SupportParticipantsIdRoute: SupportParticipantsIdRoute,
+  SupportParticipantsIndexRoute: SupportParticipantsIndexRoute,
+}
+
+const SupportRouteWithChildren =
+  SupportRoute._addFileChildren(SupportRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -326,7 +502,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRoute,
   ScheduleRoute: ScheduleRoute,
   SettingsRoute: SettingsRoute,
-  SupportRoute: SupportRoute,
+  SupportRoute: SupportRouteWithChildren,
   UsersRoute: UsersRoute,
   ParticipantsIdRoute: ParticipantsIdRoute,
   ParticipantsIndexRoute: ParticipantsIndexRoute,
