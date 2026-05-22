@@ -1,6 +1,7 @@
-import { createFileRoute, Outlet, Link, useRouterState, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouterState, useNavigate, redirect } from "@tanstack/react-router";
 import { Home, CalendarDays, Users, BookOpen, UserCircle2 } from "lucide-react";
-import { useCurrentUser } from "@/lib/auth-store";
+import { useEffect } from "react";
+import { useSession } from "@/lib/auth-store";
 
 export const Route = createFileRoute("/support")({
   component: SupportLayout,
