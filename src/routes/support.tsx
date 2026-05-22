@@ -27,15 +27,18 @@ const tabs = [
 ];
 
 function SupportLayout() {
-  const user = useCurrentUser();
+  const session = useSession();
+  const navigate = useNavigate();
   const path = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (to: string, exact?: boolean) => exact ? path === to : path === to || path.startsWith(to + "/");
 
-  // If guard couldn't run (SSR) but client has no user, redirect via component.
-  if (typeof window !== "undefined" && !user) {
-    window.location.replace("/login");
-    return null;
-  }
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Re-check on client after mount in case beforeLoad ran during SSR.
+    const raw = localStorage.getItem("fof.session.v1");
+    if (!raw && !session) navigate({ to: "/login" });
+  }, [session, navigate]);
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
