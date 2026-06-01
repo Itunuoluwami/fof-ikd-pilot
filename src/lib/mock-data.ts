@@ -28,7 +28,7 @@ const c = (i: number) => colors[i % colors.length];
 
 export const cohorts: Cohort[] = [
   { id: "co-1", name: "Cohort 2025-A", startDate: "2025-01-12", participantCount: 48, groupCount: 6, status: "ONGOING" },
-  { id: "co-2", name: "Cohort 2025-B", startDate: "2025-04-06", participantCount: 36, groupCount: 5, status: "ONGOING" },
+  { id: "co-2", name: "Cohort 2024-B", startDate: "2024-04-06", participantCount: 36, groupCount: 5, status: "COMPLETED" },
   { id: "co-3", name: "Cohort 2024-C", startDate: "2024-09-15", participantCount: 52, groupCount: 7, status: "COMPLETED" },
 ];
 
