@@ -4,6 +4,7 @@ import { setSelectedCohortId, useSelectedCohortId } from "@/lib/store";
 
 export function CohortSelector() {
   const selected = useSelectedCohortId();
+  const ongoing = cohorts.filter(c => c.status === "ONGOING");
   return (
     <label className="inline-flex items-center gap-2 bg-muted/60 hover:bg-muted px-3 py-2 rounded-xl cursor-pointer">
       <span className="text-xs text-muted-foreground hidden sm:inline">You work on:</span>
