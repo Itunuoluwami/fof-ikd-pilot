@@ -14,7 +14,7 @@ export function CohortSelector() {
           onChange={(e) => setSelectedCohortId(e.target.value)}
           className="appearance-none bg-transparent pr-6 text-sm font-semibold text-primary focus:outline-none cursor-pointer"
         >
-          {cohorts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+          {ongoing.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
         <ChevronDown className="w-4 h-4 text-primary absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
