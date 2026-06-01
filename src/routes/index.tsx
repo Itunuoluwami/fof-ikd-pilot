@@ -22,10 +22,10 @@ function Dashboard() {
   const attendancePct = Math.round((presentCount / Math.max(attendance.length, 1)) * 100);
 
   const stats = [
-    { label: "Participants Onboarded", value: cohortParticipants.length, total: participants.length, icon: UserCircle2, to: "/participants", tone: "primary" as const },
-    { label: "Total Supports", value: supports.filter(s => s.status === "ACTIVE").length, total: supports.length, icon: Users, to: "/users", tone: "info" as const },
-    { label: "Groups Created", value: cohortGroups.length, total: groups.length, icon: Network, to: "/cohorts", tone: "success" as const },
-    { label: "Active Cohorts", value: cohorts.length, total: cohorts.length, icon: Layers, to: "/cohorts", tone: "warning" as const },
+    { label: "Participants Onboarded", value: cohortParticipants.length, total: participants.length, icon: UserCircle2, to: "/participants", tone: "primary" as const, showTotal: false },
+    { label: "Total Supports", value: supports.filter(s => s.status === "ACTIVE").length, total: supports.length, icon: Users, to: "/users", tone: "info" as const, showTotal: false },
+    { label: "Groups Created", value: cohortGroups.length, total: groups.length, icon: Network, to: "/cohorts", tone: "success" as const, showTotal: false },
+    { label: "Active Cohorts", value: 1, total: cohorts.length, icon: Layers, to: "/cohorts", tone: "warning" as const, showTotal: false },
   ];
 
   const quickActions = [
@@ -244,7 +244,7 @@ function Dashboard() {
   );
 }
 
-function StatCard({ label, value, total, icon: Icon, to }: { label: string; value: number; total: number; icon: any; to: string; tone: string }) {
+function StatCard({ label, value, total, icon: Icon, to, showTotal = true }: { label: string; value: number; total: number; icon: any; to: string; tone: string; showTotal?: boolean }) {
   return (
     <Link to={to} className="card-soft p-5 hover:-translate-y-0.5 transition group">
       <div className="flex items-start justify-between mb-3">
@@ -255,7 +255,7 @@ function StatCard({ label, value, total, icon: Icon, to }: { label: string; valu
       </div>
       <p className="text-3xl font-bold">{value}</p>
       <p className="text-xs text-muted-foreground mt-1">{label}</p>
-      {total !== value && <p className="text-[11px] text-muted-foreground mt-0.5">of {total} total</p>}
+      {showTotal && total !== value && <p className="text-[11px] text-muted-foreground mt-0.5">of {total} total</p>}
     </Link>
   );
 }
