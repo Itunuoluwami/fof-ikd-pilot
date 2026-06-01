@@ -7,13 +7,31 @@ import { participants, weeks, announcements, prayerRequests, resources } from "@
 import { CheckCircle2, Circle, Loader2, MapPin, Clock, ClipboardCheck, HeartHandshake, CalendarDays, BookOpen, Sparkles, Megaphone, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { pushAdminNotification } from "@/lib/admin-notifications";
+import { useAdminSchedules, expandSchedulesForSupport } from "@/lib/admin-schedules";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/support/")({ component: SupportDashboard });
 
 function SupportDashboard() {
   const user = useCurrentUser();
   const supportId = user?.id ?? "u-3";
-  const [tasks, setTasks] = useState(supportTasks.filter(t => t.supportId === supportId));
+  const adminSchedules = useAdminSchedules();
+  const [tasks, setTasks] = useState(() => [
+    ...supportTasks.filter(t => t.supportId === supportId),
+    ...expandSchedulesForSupport(supportId),
+  ]);
+
+  // Re-sync when admin schedules change (preserving local DONE state by id).
+  useEffect(() => {
+    setTasks(prev => {
+      const statusById = new Map(prev.map(t => [t.id, t.status] as const));
+      const next = [
+        ...supportTasks.filter(t => t.supportId === supportId),
+        ...expandSchedulesForSupport(supportId),
+      ];
+      return next.map(t => statusById.has(t.id) ? { ...t, status: statusById.get(t.id)! } : t);
+    });
+  }, [adminSchedules, supportId]);
 
   const myParticipants = participants.filter(p => p.supportId === supportId);
   const todayActivities = weeks[0]?.days[1]?.activities ?? [];
