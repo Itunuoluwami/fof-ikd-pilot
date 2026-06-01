@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SupportHeader } from "@/components/support/SupportUI";
 import { supportTasks, priorityTone, type SupportTask } from "@/lib/support-data";
+import { useAdminSchedules, expandSchedulesForSupport } from "@/lib/admin-schedules";
 import { useCurrentUser } from "@/lib/auth-store";
 import { Clock, MapPin, ChevronLeft, ChevronRight, Download, CalendarDays, Grid3x3, ChevronDown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
