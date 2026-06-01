@@ -22,7 +22,14 @@ function SupportDashboard() {
   const newResources = resources.filter(r => r.isNew).slice(0, 3);
 
   function toggleTask(id: string) {
+    const task = tasks.find(t => t.id === id);
+    const wasDone = task?.status === "DONE";
     setTasks(prev => prev.map(t => t.id === id ? { ...t, status: t.status === "DONE" ? "NOT_STARTED" : "DONE" as TaskStatus, completedAt: new Date().toISOString(), completedBy: supportId } : t));
+    if (task && !wasDone) {
+      toast.success("Task completed", { description: task.title });
+    } else if (task && wasDone) {
+      toast("Task reopened", { description: task.title });
+    }
   }
 
   return (
