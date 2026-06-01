@@ -5,6 +5,7 @@ import { useCurrentUser } from "@/lib/auth-store";
 import { supportTasks, programmeGuide, priorityTone, type TaskStatus } from "@/lib/support-data";
 import { participants, weeks, announcements, prayerRequests, resources } from "@/lib/mock-data";
 import { CheckCircle2, Circle, Loader2, MapPin, Clock, ClipboardCheck, HeartHandshake, CalendarDays, BookOpen, Sparkles, Megaphone, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/support/")({ component: SupportDashboard });
 
@@ -21,7 +22,14 @@ function SupportDashboard() {
   const newResources = resources.filter(r => r.isNew).slice(0, 3);
 
   function toggleTask(id: string) {
+    const task = tasks.find(t => t.id === id);
+    const wasDone = task?.status === "DONE";
     setTasks(prev => prev.map(t => t.id === id ? { ...t, status: t.status === "DONE" ? "NOT_STARTED" : "DONE" as TaskStatus, completedAt: new Date().toISOString(), completedBy: supportId } : t));
+    if (task && !wasDone) {
+      toast.success("Task completed", { description: task.title });
+    } else if (task && wasDone) {
+      toast("Task reopened", { description: task.title });
+    }
   }
 
   return (
