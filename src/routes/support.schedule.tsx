@@ -2,9 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SupportHeader } from "@/components/support/SupportUI";
 import { supportTasks, priorityTone, type SupportTask } from "@/lib/support-data";
 import { useCurrentUser } from "@/lib/auth-store";
-import { Clock, MapPin, ChevronLeft, ChevronRight, Download, CalendarDays, Grid3x3 } from "lucide-react";
+import { Clock, MapPin, ChevronLeft, ChevronRight, Download, CalendarDays, Grid3x3, ChevronDown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -64,24 +72,29 @@ function SupportSchedule() {
     setCursor(next);
   }
 
-  function exportPdf() {
+  function exportPdf(scope: "daily" | "weekly" | "monthly") {
     const doc = new jsPDF();
-    const title = view === "week"
-      ? `Schedule — Week of ${weekStart.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`
-      : `Schedule — ${cursor.toLocaleDateString(undefined, { month: "long", year: "numeric" })}`;
+    let title: string;
+    let range: Date[];
+
+    if (scope === "daily") {
+      title = `Schedule — ${cursor.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })}`;
+      range = [cursor];
+    } else if (scope === "weekly") {
+      title = `Schedule — Week of ${weekStart.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+      range = weekDays;
+    } else {
+      title = `Schedule — ${cursor.toLocaleDateString(undefined, { month: "long", year: "numeric" })}`;
+      const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+      const last = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0);
+      range = Array.from({ length: last.getDate() }, (_, i) => addDays(first, i));
+    }
+
     doc.setFontSize(16);
     doc.text("FOF IKD Ops — My Schedule", 14, 18);
     doc.setFontSize(11);
     doc.setTextColor(120);
     doc.text(`${user?.name ?? "Support"} • ${title}`, 14, 25);
-
-    let range: Date[];
-    if (view === "week") range = weekDays;
-    else {
-      const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
-      const last = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0);
-      range = Array.from({ length: last.getDate() }, (_, i) => addDays(first, i));
-    }
 
     const rows: string[][] = [];
     range.forEach((d) => {
@@ -110,8 +123,8 @@ function SupportSchedule() {
       alternateRowStyles: { fillColor: [250, 250, 250] },
     });
 
-    const fname = `schedule_${view}_${fmtDate(view === "week" ? weekStart : cursor).slice(0, 10)}.pdf`;
-    doc.save(fname);
+    const anchor = scope === "monthly" ? cursor : scope === "weekly" ? weekStart : cursor;
+    doc.save(`schedule_${scope}_${fmtDate(anchor)}.pdf`);
   }
 
   const headerTitle =
@@ -140,9 +153,26 @@ function SupportSchedule() {
               <Grid3x3 className="w-3.5 h-3.5" /> Month
             </button>
           </div>
-          <Button onClick={exportPdf} size="sm" className="bg-primary hover:bg-primary/90 text-white">
-            <Download className="w-4 h-4" /> Export PDF
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
+                <Download className="w-4 h-4" /> Export PDF <ChevronDown className="w-3.5 h-3.5 ml-0.5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuLabel>Export schedule</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => exportPdf("daily")}>
+                Daily ({cursor.toLocaleDateString(undefined, { month: "short", day: "numeric" })})
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => exportPdf("weekly")}>
+                Weekly (current week)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => exportPdf("monthly")}>
+                Monthly ({cursor.toLocaleDateString(undefined, { month: "long" })})
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Range nav */}
