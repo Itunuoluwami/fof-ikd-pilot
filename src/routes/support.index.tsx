@@ -5,6 +5,7 @@ import { useCurrentUser } from "@/lib/auth-store";
 import { supportTasks, programmeGuide, priorityTone, type TaskStatus } from "@/lib/support-data";
 import { participants, weeks, announcements, prayerRequests, resources } from "@/lib/mock-data";
 import { CheckCircle2, Circle, Loader2, MapPin, Clock, ClipboardCheck, HeartHandshake, CalendarDays, BookOpen, Sparkles, Megaphone, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/support/")({ component: SupportDashboard });
 
