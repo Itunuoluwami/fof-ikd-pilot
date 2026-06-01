@@ -72,7 +72,7 @@ function SupportDashboard() {
             <p className="text-xs text-muted-foreground">You're all caught up.</p>
           </div>
         )}
-        {tasks.map(t => {
+        {tasks.slice(0, 3).map(t => {
           const done = t.status === "DONE";
           return (
             <div key={t.id} className={`card-soft p-4 transition ${done ? "opacity-60" : ""}`}>
@@ -107,6 +107,11 @@ function SupportDashboard() {
             </div>
           );
         })}
+        {tasks.length > 3 && (
+          <Link to="/support/schedule" className="card-soft p-3 flex items-center justify-center gap-2 text-sm font-semibold text-primary active:bg-muted transition">
+            View all tasks ({tasks.length}) <ChevronRight className="w-4 h-4" />
+          </Link>
+        )}
       </div>
 
       {/* My participants */}
