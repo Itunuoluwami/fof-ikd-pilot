@@ -36,7 +36,7 @@ const priClass: Record<string, string> = {
 function SupportSchedule() {
   const user = useCurrentUser();
   const [view, setView] = useState<View>("week");
-  const [cursor, setCursor] = useState(() => new Date("2025-05-12"));
+  const [cursor, setCursor] = useState(() => new Date());
 
   const myTasks = useMemo(
     () => supportTasks.filter((t) => !user || t.supportId === user.id),
