@@ -146,6 +146,61 @@ function Dashboard() {
       {/* Right rail */}
       <aside className="space-y-4">
         <div className="card-soft p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Bell className="w-5 h-5 text-primary" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold grid place-items-center">
+                    {unreadCount}
+                  </span>
+                )}
+              </div>
+              <p className="font-semibold">Support activity</p>
+            </div>
+            {notifications.length > 0 && (
+              <div className="flex items-center gap-2">
+                {unreadCount > 0 && (
+                  <button onClick={markAllRead} className="text-xs font-semibold text-primary hover:underline">
+                    Mark read
+                  </button>
+                )}
+                <button onClick={clearAdminNotifications} className="text-xs text-muted-foreground hover:text-foreground" aria-label="Clear">
+                  Clear
+                </button>
+              </div>
+            )}
+          </div>
+          {notifications.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No support activity yet. You'll be notified when supports mark tasks done.</p>
+          ) : (
+            <ul className="space-y-3 max-h-80 overflow-y-auto">
+              {notifications.slice(0, 10).map(n => (
+                <li key={n.id} className={`flex items-start gap-3 pb-3 border-b border-border last:border-0 last:pb-0 ${!n.read ? "" : "opacity-70"}`}>
+                  <div className={`w-8 h-8 rounded-lg grid place-items-center shrink-0 ${n.type === "TASK_DONE" ? "bg-primary-light text-primary" : "bg-muted text-muted-foreground"}`}>
+                    {n.type === "TASK_DONE" ? <CheckCircle2 className="w-4 h-4" /> : <RotateCcw className="w-4 h-4" />}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm leading-snug">
+                      <span className="font-semibold">{n.supportName}</span>{" "}
+                      <span className="text-muted-foreground">
+                        {n.type === "TASK_DONE" ? "marked done:" : "reopened:"}
+                      </span>{" "}
+                      <span className="font-medium">{n.taskTitle}</span>
+                    </p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">
+                      {new Date(n.createdAt).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}
+                    </p>
+                  </div>
+                  {!n.read && <span className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+
+        <div className="card-soft p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-primary-light text-primary grid place-items-center"><HardDrive className="w-5 h-5" /></div>
             <div>
