@@ -9,7 +9,8 @@ export type PrayerStatus = "OPEN" | "IN_PROGRESS" | "ANSWERED";
 export type WeekStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 export type ChangeStatus = "PENDING" | "APPROVED" | "REJECTED";
 
-export interface Cohort { id: string; name: string; startDate: string; participantCount: number; groupCount: number; }
+export type CohortStatus = "ONGOING" | "COMPLETED";
+export interface Cohort { id: string; name: string; startDate: string; participantCount: number; groupCount: number; status: CohortStatus; }
 export interface Group { id: string; name: string; cohortId: string; supportIds: string[]; participantIds: string[]; }
 export interface User { id: string; name: string; role: UserRole; status: UserStatus; phone?: string; email?: string; cohortId?: string; groupId?: string; avatarColor: string; }
 export interface Participant { id: string; name: string; phone: string; cohortId: string; groupId: string; supportId?: string; joinedAt: string; notes?: string; avatarColor: string; }
