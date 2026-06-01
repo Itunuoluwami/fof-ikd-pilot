@@ -9,7 +9,8 @@ export type PrayerStatus = "OPEN" | "IN_PROGRESS" | "ANSWERED";
 export type WeekStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 export type ChangeStatus = "PENDING" | "APPROVED" | "REJECTED";
 
-export interface Cohort { id: string; name: string; startDate: string; participantCount: number; groupCount: number; }
+export type CohortStatus = "ONGOING" | "COMPLETED";
+export interface Cohort { id: string; name: string; startDate: string; participantCount: number; groupCount: number; status: CohortStatus; }
 export interface Group { id: string; name: string; cohortId: string; supportIds: string[]; participantIds: string[]; }
 export interface User { id: string; name: string; role: UserRole; status: UserStatus; phone?: string; email?: string; cohortId?: string; groupId?: string; avatarColor: string; }
 export interface Participant { id: string; name: string; phone: string; cohortId: string; groupId: string; supportId?: string; joinedAt: string; notes?: string; avatarColor: string; }
@@ -26,9 +27,9 @@ const colors = ["#FF914D", "#E5822D", "#3B82F6", "#10B981", "#EF4444", "#8B5CF6"
 const c = (i: number) => colors[i % colors.length];
 
 export const cohorts: Cohort[] = [
-  { id: "co-1", name: "Cohort 2025-A", startDate: "2025-01-12", participantCount: 48, groupCount: 6 },
-  { id: "co-2", name: "Cohort 2025-B", startDate: "2025-04-06", participantCount: 36, groupCount: 5 },
-  { id: "co-3", name: "Cohort 2024-C", startDate: "2024-09-15", participantCount: 52, groupCount: 7 },
+  { id: "co-1", name: "Cohort 2025-A", startDate: "2025-01-12", participantCount: 48, groupCount: 6, status: "ONGOING" },
+  { id: "co-2", name: "Cohort 2025-B", startDate: "2025-04-06", participantCount: 36, groupCount: 5, status: "ONGOING" },
+  { id: "co-3", name: "Cohort 2024-C", startDate: "2024-09-15", participantCount: 52, groupCount: 7, status: "COMPLETED" },
 ];
 
 export const users: User[] = [
