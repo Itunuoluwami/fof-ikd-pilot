@@ -65,6 +65,7 @@ function SupportDashboard() {
       {/* Today's tasks */}
       <SectionTitle title="Today's tasks" action={<span className="text-xs text-muted-foreground">{tasks.filter(t => t.status === "DONE").length}/{tasks.length} done</span>} />
       <div className="px-5 space-y-2.5">
+        {tasks.slice(0, 3).map(t => null) && null}
         {tasks.length === 0 && (
           <div className="card-soft p-6 text-center">
             <p className="text-2xl">🎉</p>
