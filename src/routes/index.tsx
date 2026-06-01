@@ -10,6 +10,8 @@ export const Route = createFileRoute("/")({ component: Dashboard });
 function Dashboard() {
   const cohortId = useSelectedCohortId();
   const cohort = cohorts.find(c => c.id === cohortId)!;
+  const notifications = useAdminNotifications();
+  const unreadCount = notifications.filter(n => !n.read).length;
   const cohortParticipants = participants.filter(p => p.cohortId === cohortId);
   const cohortGroups = groups.filter(g => g.cohortId === cohortId);
   const supports = users.filter(u => u.role === "SUPPORT");
