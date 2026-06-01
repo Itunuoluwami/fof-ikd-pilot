@@ -72,24 +72,29 @@ function SupportSchedule() {
     setCursor(next);
   }
 
-  function exportPdf() {
+  function exportPdf(scope: "daily" | "weekly" | "monthly") {
     const doc = new jsPDF();
-    const title = view === "week"
-      ? `Schedule — Week of ${weekStart.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`
-      : `Schedule — ${cursor.toLocaleDateString(undefined, { month: "long", year: "numeric" })}`;
+    let title: string;
+    let range: Date[];
+
+    if (scope === "daily") {
+      title = `Schedule — ${cursor.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })}`;
+      range = [cursor];
+    } else if (scope === "weekly") {
+      title = `Schedule — Week of ${weekStart.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}`;
+      range = weekDays;
+    } else {
+      title = `Schedule — ${cursor.toLocaleDateString(undefined, { month: "long", year: "numeric" })}`;
+      const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+      const last = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0);
+      range = Array.from({ length: last.getDate() }, (_, i) => addDays(first, i));
+    }
+
     doc.setFontSize(16);
     doc.text("FOF IKD Ops — My Schedule", 14, 18);
     doc.setFontSize(11);
     doc.setTextColor(120);
     doc.text(`${user?.name ?? "Support"} • ${title}`, 14, 25);
-
-    let range: Date[];
-    if (view === "week") range = weekDays;
-    else {
-      const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
-      const last = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0);
-      range = Array.from({ length: last.getDate() }, (_, i) => addDays(first, i));
-    }
 
     const rows: string[][] = [];
     range.forEach((d) => {
@@ -118,8 +123,8 @@ function SupportSchedule() {
       alternateRowStyles: { fillColor: [250, 250, 250] },
     });
 
-    const fname = `schedule_${view}_${fmtDate(view === "week" ? weekStart : cursor).slice(0, 10)}.pdf`;
-    doc.save(fname);
+    const anchor = scope === "monthly" ? cursor : scope === "weekly" ? weekStart : cursor;
+    doc.save(`schedule_${scope}_${fmtDate(anchor)}.pdf`);
   }
 
   const headerTitle =
