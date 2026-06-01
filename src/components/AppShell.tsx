@@ -8,7 +8,7 @@ const nav = [
   { to: "/schedule", label: "Schedule", icon: CalendarDays },
   { to: "/approvals", label: "Approvals", icon: CheckSquare },
   { to: "/users", label: "Users", icon: Users },
-  { to: "/cohorts", label: "Cohorts & Groups", icon: Network },
+  { to: "/cohorts", label: "Groups", icon: Network },
   { to: "/participants", label: "Participants", icon: UserCircle2 },
   { to: "/faith-projects", label: "Faith Projects", icon: HeartHandshake },
   { to: "/attendance", label: "Attendance", icon: ClipboardCheck },
