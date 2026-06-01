@@ -47,9 +47,14 @@ function SupportSchedule() {
   const [view, setView] = useState<View>("week");
   const [cursor, setCursor] = useState(() => new Date());
 
+  const adminSchedules = useAdminSchedules();
   const myTasks = useMemo(
-    () => supportTasks.filter((t) => !user || t.supportId === user.id),
-    [user],
+    () => [
+      ...supportTasks.filter((t) => !user || t.supportId === user.id),
+      ...(user ? expandSchedulesForSupport(user.id) : []),
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user, adminSchedules],
   );
 
   const weekStart = startOfWeek(cursor);
