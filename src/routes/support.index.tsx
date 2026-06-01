@@ -107,6 +107,11 @@ function SupportDashboard() {
             </div>
           );
         })}
+        {tasks.length > 3 && (
+          <Link to="/support/schedule" className="card-soft p-3 flex items-center justify-center gap-2 text-sm font-semibold text-primary active:bg-muted transition">
+            View all tasks ({tasks.length}) <ChevronRight className="w-4 h-4" />
+          </Link>
+        )}
       </div>
 
       {/* My participants */}
