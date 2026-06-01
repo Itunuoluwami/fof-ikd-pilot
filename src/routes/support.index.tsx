@@ -27,9 +27,23 @@ function SupportDashboard() {
     const wasDone = task?.status === "DONE";
     setTasks(prev => prev.map(t => t.id === id ? { ...t, status: t.status === "DONE" ? "NOT_STARTED" : "DONE" as TaskStatus, completedAt: new Date().toISOString(), completedBy: supportId } : t));
     if (task && !wasDone) {
-      toast.success("Task completed", { description: task.title });
+      toast.success("Task completed", { description: `Admin has been notified: ${task.title}` });
+      pushAdminNotification({
+        type: "TASK_DONE",
+        taskId: task.id,
+        taskTitle: task.title,
+        supportId,
+        supportName: user?.name ?? "A support",
+      });
     } else if (task && wasDone) {
       toast("Task reopened", { description: task.title });
+      pushAdminNotification({
+        type: "TASK_REOPENED",
+        taskId: task.id,
+        taskTitle: task.title,
+        supportId,
+        supportName: user?.name ?? "A support",
+      });
     }
   }
 
