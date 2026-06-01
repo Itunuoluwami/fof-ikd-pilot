@@ -6,6 +6,7 @@ import { supportTasks, programmeGuide, priorityTone, type TaskStatus } from "@/l
 import { participants, weeks, announcements, prayerRequests, resources } from "@/lib/mock-data";
 import { CheckCircle2, Circle, Loader2, MapPin, Clock, ClipboardCheck, HeartHandshake, CalendarDays, BookOpen, Sparkles, Megaphone, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
+import { pushAdminNotification } from "@/lib/admin-notifications";
 
 export const Route = createFileRoute("/support/")({ component: SupportDashboard });
 
