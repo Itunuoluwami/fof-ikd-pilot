@@ -153,9 +153,26 @@ function SupportSchedule() {
               <Grid3x3 className="w-3.5 h-3.5" /> Month
             </button>
           </div>
-          <Button onClick={exportPdf} size="sm" className="bg-primary hover:bg-primary/90 text-white">
-            <Download className="w-4 h-4" /> Export PDF
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
+                <Download className="w-4 h-4" /> Export PDF <ChevronDown className="w-3.5 h-3.5 ml-0.5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuLabel>Export schedule</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => exportPdf("daily")}>
+                Daily ({cursor.toLocaleDateString(undefined, { month: "short", day: "numeric" })})
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => exportPdf("weekly")}>
+                Weekly (current week)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => exportPdf("monthly")}>
+                Monthly ({cursor.toLocaleDateString(undefined, { month: "long" })})
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Range nav */}
