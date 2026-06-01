@@ -17,7 +17,7 @@ function CohortsPage() {
 
   return (
     <div>
-      <PageHeader title="Cohorts & Groups" subtitle="Organize participants and supports." action={
+      <PageHeader title="Groups" subtitle="Organize participants and supports." action={
         <button
           onClick={() => setCreateForCohort(openCohort || ongoingCohorts[0]?.id || null)}
           disabled={ongoingCohorts.length === 0}
