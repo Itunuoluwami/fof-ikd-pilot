@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Avatar, StatusBadge } from "@/components/Primitives";
 import { announcements, attendance, cohorts, participants, pendingChanges, prayerRequests, users, weeks, groups, resources } from "@/lib/mock-data";
 import { useSelectedCohortId } from "@/lib/store";
-import { Users, UserCircle2, Network, Layers, CalendarPlus, Megaphone, FolderPlus, UserPlus, BarChart3, AlertCircle, Clock, CheckCircle2, ArrowUpRight, BookOpen, HardDrive } from "lucide-react";
+import { useAdminNotifications, markAllRead, clearAdminNotifications } from "@/lib/admin-notifications";
+import { Users, UserCircle2, Network, Layers, CalendarPlus, Megaphone, FolderPlus, UserPlus, BarChart3, AlertCircle, Clock, CheckCircle2, ArrowUpRight, BookOpen, HardDrive, Bell, RotateCcw } from "lucide-react";
 
 export const Route = createFileRoute("/")({ component: Dashboard });
 
