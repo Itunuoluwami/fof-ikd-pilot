@@ -6,6 +6,7 @@ import { supportTasks, programmeGuide, priorityTone, type TaskStatus } from "@/l
 import { participants, weeks, announcements, prayerRequests, resources } from "@/lib/mock-data";
 import { CheckCircle2, Circle, Loader2, MapPin, Clock, ClipboardCheck, HeartHandshake, CalendarDays, BookOpen, Sparkles, Megaphone, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
+import { pushAdminNotification } from "@/lib/admin-notifications";
 
 export const Route = createFileRoute("/support/")({ component: SupportDashboard });
 
@@ -26,9 +27,23 @@ function SupportDashboard() {
     const wasDone = task?.status === "DONE";
     setTasks(prev => prev.map(t => t.id === id ? { ...t, status: t.status === "DONE" ? "NOT_STARTED" : "DONE" as TaskStatus, completedAt: new Date().toISOString(), completedBy: supportId } : t));
     if (task && !wasDone) {
-      toast.success("Task completed", { description: task.title });
+      toast.success("Task completed", { description: `Admin has been notified: ${task.title}` });
+      pushAdminNotification({
+        type: "TASK_DONE",
+        taskId: task.id,
+        taskTitle: task.title,
+        supportId,
+        supportName: user?.name ?? "A support",
+      });
     } else if (task && wasDone) {
       toast("Task reopened", { description: task.title });
+      pushAdminNotification({
+        type: "TASK_REOPENED",
+        taskId: task.id,
+        taskTitle: task.title,
+        supportId,
+        supportName: user?.name ?? "A support",
+      });
     }
   }
 
