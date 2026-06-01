@@ -170,69 +170,130 @@ function SupportSchedule() {
 function WeekView({ days, tasksByDate }: { days: Date[]; tasksByDate: Map<string, SupportTask[]> }) {
   const [today, setToday] = useState<string | null>(null);
   useEffect(() => { setToday(fmtDate(new Date())); }, []);
-  const [open, setOpen] = useState<Record<string, boolean>>(() => {
-    const init: Record<string, boolean> = {};
-    days.forEach((d, i) => { init[fmtDate(d)] = i === 0; });
-    return init;
-  });
-  const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
+
+  const [selected, setSelected] = useState<string>(() => fmtDate(days[0]));
+  useEffect(() => {
+    const todayKey = fmtDate(new Date());
+    const inRange = days.find((d) => fmtDate(d) === todayKey);
+    if (inRange) {
+      setSelected(todayKey);
+    } else {
+      const withTasks = days.find((d) => (tasksByDate.get(fmtDate(d)) ?? []).length > 0);
+      setSelected(fmtDate(withTasks ?? days[0]));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [days[0]?.toISOString()]);
+
+  const selectedDate = days.find((d) => fmtDate(d) === selected) ?? days[0];
+  const items = tasksByDate.get(fmtDate(selectedDate)) ?? [];
+  const pending = items.filter((t) => t.status !== "DONE");
+  const completed = items.filter((t) => t.status === "DONE");
+  const isPastDay = !!today && fmtDate(selectedDate) < today;
 
   return (
-    <div className="space-y-3">
-      {days.map((d) => {
-        const key = fmtDate(d);
-        const items = tasksByDate.get(key) ?? [];
-        const isToday = key === today;
-        const isOpen = !!open[key];
-        const panelId = `day-panel-${key}`;
-        return (
-          <section key={key} className="card-soft overflow-hidden">
+    <div className="space-y-4">
+      {/* Day chips */}
+      <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+        {days.map((d) => {
+          const key = fmtDate(d);
+          const isSel = key === selected;
+          const isTdy = key === today;
+          const isPast = !!today && key < today;
+          const count = (tasksByDate.get(key) ?? []).length;
+          return (
             <button
-              type="button"
-              onClick={() => toggle(key)}
-              aria-expanded={isOpen}
-              aria-controls={panelId}
-              className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-muted/40 transition"
+              key={key}
+              onClick={() => setSelected(key)}
+              className={`shrink-0 flex flex-col items-center justify-center w-14 h-16 rounded-xl border transition ${
+                isSel
+                  ? "bg-primary text-white border-primary shadow-sm"
+                  : isPast
+                    ? "bg-muted/40 text-muted-foreground border-transparent opacity-60 hover:opacity-100"
+                    : "bg-card border-border hover:border-primary"
+              }`}
             >
-              <div className="flex-1 min-w-0">
-                <p className={`text-xs font-bold uppercase tracking-wide ${isToday ? "text-primary" : "text-muted-foreground"}`}>
-                  {d.toLocaleDateString(undefined, { weekday: "long" })} {isToday && "• Today"}
-                </p>
-                <p className="text-sm font-semibold">{d.toLocaleDateString(undefined, { month: "long", day: "numeric" })}</p>
-              </div>
-              <span className="text-xs text-muted-foreground shrink-0">{items.length} task{items.length === 1 ? "" : "s"}</span>
-              {isOpen ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />}
-            </button>
-            {isOpen && (
-              <div id={panelId} className="px-4 pb-4">
-                {items.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">No tasks assigned.</p>
-                ) : (
-                  <ul className="space-y-2">
-                    {items.map((t) => (
-                      <li key={t.id} className="flex items-start gap-3 p-3 rounded-xl bg-background border border-border">
-                        <div className="text-xs font-bold text-primary w-12 shrink-0 mt-0.5">{t.time}</div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-sm">{t.title}</p>
-                          <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-muted-foreground">
-                            <span className="inline-flex items-center gap-1"><MapPin className="w-3 h-3" /> {t.location}</span>
-                            <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> {t.time}</span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col items-end gap-1 shrink-0">
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${priClass[priorityTone[t.priority]]}`}>{t.priority}</span>
-                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${statusTone[t.status]}`}>{t.status.replace("_", " ")}</span>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+              <span className="text-[10px] font-bold uppercase tracking-wide">
+                {d.toLocaleDateString(undefined, { weekday: "short" })}
+              </span>
+              <span className="text-lg font-bold leading-none mt-0.5">{d.getDate()}</span>
+              <span className="flex items-center gap-1 mt-0.5 h-2">
+                {isTdy && <span className={`w-1 h-1 rounded-full ${isSel ? "bg-white" : "bg-primary"}`} />}
+                {count > 0 && (
+                  <span className={`text-[9px] font-semibold ${isSel ? "text-white/90" : "text-muted-foreground"}`}>
+                    {count}
+                  </span>
                 )}
-              </div>
-            )}
-          </section>
-        );
-      })}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Selected day header */}
+      <div className="flex items-baseline justify-between">
+        <div>
+          <p className={`text-xs font-bold uppercase tracking-wide ${fmtDate(selectedDate) === today ? "text-primary" : "text-muted-foreground"}`}>
+            {selectedDate.toLocaleDateString(undefined, { weekday: "long" })}
+            {fmtDate(selectedDate) === today && " • Today"}
+            {isPastDay && " • Past"}
+          </p>
+          <p className="text-base font-semibold">
+            {selectedDate.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}
+          </p>
+        </div>
+        <span className="text-xs text-muted-foreground">{items.length} task{items.length === 1 ? "" : "s"}</span>
+      </div>
+
+      {items.length === 0 ? (
+        <div className="card-soft p-6 text-center text-sm text-muted-foreground">
+          No tasks scheduled for this day.
+        </div>
+      ) : (
+        <div className={`space-y-4 ${isPastDay ? "opacity-70" : ""}`}>
+          <TaskGroup label="Pending" tone="primary" tasks={pending} />
+          <TaskGroup label="Completed" tone="success" tasks={completed} dimmed />
+        </div>
+      )}
     </div>
+  );
+}
+
+function TaskGroup({
+  label, tone, tasks, dimmed = false,
+}: {
+  label: string;
+  tone: "primary" | "success";
+  tasks: SupportTask[];
+  dimmed?: boolean;
+}) {
+  if (tasks.length === 0) return null;
+  const dotClass = tone === "primary" ? "bg-primary" : "bg-emerald-500";
+  return (
+    <section>
+      <div className="flex items-center gap-2 mb-2 px-1">
+        <span className={`w-2 h-2 rounded-full ${dotClass}`} />
+        <h3 className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{label}</h3>
+        <span className="text-xs text-muted-foreground">· {tasks.length}</span>
+      </div>
+      <ul className={`space-y-2 ${dimmed ? "opacity-60" : ""}`}>
+        {tasks.map((t) => (
+          <li key={t.id} className="flex items-start gap-3 p-3 rounded-xl bg-card border border-border">
+            <div className="text-xs font-bold text-primary w-12 shrink-0 mt-0.5">{t.time}</div>
+            <div className="flex-1 min-w-0">
+              <p className={`font-semibold text-sm ${tone === "success" ? "line-through decoration-muted-foreground/50" : ""}`}>{t.title}</p>
+              <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1"><MapPin className="w-3 h-3" /> {t.location}</span>
+                <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> {t.time}</span>
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-1 shrink-0">
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${priClass[priorityTone[t.priority]]}`}>{t.priority}</span>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${statusTone[t.status]}`}>{t.status.replace("_", " ")}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
