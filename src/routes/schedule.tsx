@@ -54,9 +54,11 @@ function SchedulePage() {
         action={
           <button
             onClick={() => setOpen(true)}
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-xl font-semibold hover:bg-primary-dark transition"
+            aria-label="Create Schedule"
+            className="ml-auto inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground p-2.5 sm:px-4 sm:py-2.5 rounded-xl font-semibold hover:bg-primary/90 transition"
           >
-            <Plus className="w-4 h-4" /> Create Schedule
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">Create Schedule</span>
           </button>
         }
       />
