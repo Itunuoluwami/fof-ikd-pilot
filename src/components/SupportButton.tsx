@@ -5,8 +5,8 @@ import { Headset, Phone, Mail } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 
 const contacts = [
-  { name: "Olamide", role: "Support Lead", phone: "+234 801 234 5678", email: "olamide@fofikd.org" },
-  { name: "Adetutu", role: "Support Coordinator", phone: "+234 802 345 6789", email: "adetutu@fofikd.org" },
+  { name: "Olamide", role: "Support Contact 1", phone: "+234 801 234 5678", email: "olamide@fofikd.org" },
+  { name: "Adetutu", role: "Support Contact 2", phone: "+234 802 345 6789", email: "adetutu@fofikd.org" },
 ];
 
 export function SupportButton() {
