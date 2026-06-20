@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { LayoutDashboard, CalendarDays, CheckSquare, Users, Network, UserCircle2, HeartHandshake, ClipboardCheck, Megaphone, BookOpen, Settings, Bell, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { CohortSelector } from "./CohortSelector";
+import { SupportButton } from "./SupportButton";
 
 const nav = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
@@ -89,6 +90,7 @@ export function AppShell({ children }: { children?: React.ReactNode }) {
           })}
         </div>
       </nav>
+      <SupportButton />
     </div>
   );
 }
