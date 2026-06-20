@@ -3,6 +3,7 @@ import { Home, CalendarDays, Users, BookOpen, UserCircle2, LogOut } from "lucide
 import { useEffect } from "react";
 import { useSession, useCurrentUser, logout } from "@/lib/auth-store";
 import { Avatar } from "@/components/Primitives";
+import { SupportButton } from "@/components/SupportButton";
 
 export const Route = createFileRoute("/support")({
   component: SupportLayout,
