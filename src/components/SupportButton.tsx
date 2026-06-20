@@ -26,8 +26,8 @@ export function SupportButton() {
       </SheetTrigger>
       <SheetContent side="right" className="w-full sm:max-w-sm">
         <SheetHeader>
-          <SheetTitle>Support contacts</SheetTitle>
-          <SheetDescription>Reach out to any of the support team below for help.</SheetDescription>
+          <SheetTitle>Need Help?</SheetTitle>
+          <SheetDescription>Do you need help or clarity, reach out to any of the contacts below</SheetDescription>
         </SheetHeader>
         <div className="mt-6 space-y-4">
           {contacts.map((c) => (
