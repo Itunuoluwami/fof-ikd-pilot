@@ -117,6 +117,7 @@ function SupportLayout() {
           })}
         </div>
       </nav>
+      <SupportButton />
     </div>
   );
 }
