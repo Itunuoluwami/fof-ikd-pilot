@@ -18,10 +18,10 @@ export function SupportButton() {
         <button
           type="button"
           aria-label="Support contacts"
-          className="fixed z-40 bottom-20 right-4 lg:bottom-8 lg:right-8 inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground shadow-xl shadow-primary/30 hover:bg-primary/90 active:scale-95 transition rounded-full p-3.5 sm:px-5 sm:py-3"
+          className="fixed z-40 bottom-20 right-4 lg:bottom-8 lg:right-8 inline-flex items-center justify-center gap-2.5 bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:bg-primary/90 active:scale-95 transition rounded-full p-4 sm:px-6 sm:py-4 ring-4 ring-primary/20 animate-pulse"
         >
-          <Headset className="w-5 h-5" />
-          <span className="hidden sm:inline font-semibold text-sm">Support</span>
+          <Headset className="w-6 h-6" />
+          <span className="hidden sm:inline font-semibold text-base">Support</span>
         </button>
       </SheetTrigger>
       <SheetContent side="right" className="w-full sm:max-w-sm">
